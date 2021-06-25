@@ -1,11 +1,20 @@
-import React from 'react';
-import './AllBooks.css';
+import React, {useState} from 'react';
+
 import BookCard from './BookCard';
 import book_image from './hp_book.jpg';
+import UpdateModal from '../UpdateModal/updateModal';
+import AddBook from '../AddNewBookModal/Modal';
+
+import './AllBooks.css';
+
 const AllBooks = () => {
-    return (
-        
+    const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
+    const [isAddModalVisible, setAddModalVisible] = useState(false);
+
+    return (     
             <div className='allBooks'>
+                <UpdateModal visible={isUpdateModalVisible} setVisibility={setUpdateModalVisible} book={{name:"The king of drugs",description:"sample description to check", type:["first","second"],author:"mandar",price:2000,availableQuantity:20}} />
+                <AddBook visible={isAddModalVisible} setVisibility={setAddModalVisible} />
                 <BookCard
                 bookImage={book_image}
                 bookname="Harry Potter and the Philosopher's Stone "
