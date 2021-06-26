@@ -9,6 +9,9 @@ import { useState } from 'react'
 import AllBooks from './components/AllBooks/AllBooks'
 import Search from './components/Search/Search'
 
+import {books} from './books_input'
+import { ContactSupportOutlined } from '@material-ui/icons'
+
 const NotFoundPage=()=>{
   return(
     <div>404</div>
@@ -24,7 +27,35 @@ const MyBooks=()=>{
 
 function App() {
 
-  const[isLogedin,setLogin]=useState(false)
+  const[isLogedin,setLogin]=useState(false);
+  const [Input, setInput] = useState("");
+  const [Books_obj, setBooks_obj] = useState(books);
+
+
+  const onInputChange=(e)=>{
+
+    setInput(e.target.value);  //Note even if we set the value now but it is not instantly updated. After the function execution it is updated 
+    const temp_input= e.target.value //so we save it in the temp_input
+    // console.log(Input);
+    setBooks_obj(
+      books.filter(
+        obj=>{
+
+          const bookName_bool=(obj.bookname.toLowerCase().includes(temp_input.toLowerCase()));
+          const authorName_bool=(obj.author.toLowerCase().includes(temp_input.toLowerCase()));
+          
+          console.log(obj.bookname.toLowerCase(),"hello",temp_input.toLowerCase(),  ((obj.bookname.toLowerCase().includes(temp_input.toLowerCase()))));
+          return (bookName_bool || authorName_bool);
+        }
+      )
+
+    );
+
+
+
+  }
+
+
 
   const Login=()=>{
     setLogin(true)
@@ -41,7 +72,12 @@ function App() {
     route=(
       <Switch>
         <Route path="/" component={HomePage} exact={true}/>
-        <Route path="/AllBooks" component={AllBooks}/>
+        <Route 
+        path="/AllBooks" 
+        render={(props)=>(
+          <AllBooks {...props} Books_obj={Books_obj}/>   //passed the props
+        )}
+        />
         <Route path ="/MyBooks" component={MyBooks}/>
         <Route component={NotFoundPage}/>
     </Switch>
@@ -51,7 +87,12 @@ function App() {
     route=(
       <Switch>
       <Route path="/" component={HomePage} exact={true}/>
-      <Route path="/AllBooks" component={AllBooks}/>
+      <Route 
+        path="/AllBooks" 
+        render={(props)=>(
+          <AllBooks {...props} Books_obj={Books_obj}/>   //passed the props
+        )}
+        />
       <Route component={NotFoundPage}/>
     </Switch>
     )
@@ -66,7 +107,7 @@ function App() {
     <div className="wrap-header">
       <Header/>
     </div>
-      <Search/>
+      <Search onInputChange={onInputChange}/>
       {route}
     </BrowserRouter>
     </AuthContext.Provider>
