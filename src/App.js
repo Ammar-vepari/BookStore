@@ -8,6 +8,7 @@ import './App.css'
 import { useState } from 'react'
 import AllBooks from './components/AllBooks/AllBooks'
 import Search from './components/Search/Search'
+import PurchaseHistory from './components/PurchaseHistory/PurchaseHistory'
 
 const NotFoundPage=()=>{
   return(
@@ -24,7 +25,7 @@ const MyBooks=()=>{
 
 function App() {
 
-  const[isLogedin,setLogin]=useState(false)
+  const[isLogedin,setLogin]=useState(true)
 
   const Login=()=>{
     setLogin(true)
@@ -43,6 +44,7 @@ function App() {
         <Route path="/" component={HomePage} exact={true}/>
         <Route path="/AllBooks" component={AllBooks}/>
         <Route path ="/MyBooks" component={MyBooks}/>
+        <Route path ="/transactions" component={PurchaseHistory}/>
         <Route component={NotFoundPage}/>
     </Switch>
     )
