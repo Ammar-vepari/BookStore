@@ -8,6 +8,7 @@ import './App.css'
 import { useState } from 'react'
 import AllBooks from './components/AllBooks/AllBooks'
 import Search from './components/Search/Search'
+import PurchaseHistory from './components/PurchaseHistory/PurchaseHistory'
 
 import {books} from './books_input'
 import { ContactSupportOutlined } from '@material-ui/icons'
@@ -27,7 +28,7 @@ const MyBooks=()=>{
 
 function App() {
 
-  const[isLogedin,setLogin]=useState(false);
+  
   const [Input, setInput] = useState("");
   const [Books_obj, setBooks_obj] = useState(books);
 
@@ -56,6 +57,7 @@ function App() {
   }
 
 
+  const[isLogedin,setLogin]=useState(true)
 
   const Login=()=>{
     setLogin(true)
@@ -79,6 +81,7 @@ function App() {
         )}
         />
         <Route path ="/MyBooks" component={MyBooks}/>
+        <Route path ="/transactions" component={PurchaseHistory}/>
         <Route component={NotFoundPage}/>
     </Switch>
     )

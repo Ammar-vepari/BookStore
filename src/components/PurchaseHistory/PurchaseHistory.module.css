@@ -1,0 +1,11 @@
+.records {
+  padding: 10px;
+  width: 70vw;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}

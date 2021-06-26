@@ -42,6 +42,9 @@ const Header= ()=>{
                     <NavLink to ="/AllBooks">All Books</NavLink>
                 </li>
                 <li>
+                {auth.isLogedin ? <NavLink to ="/transactions">Transactions</NavLink>:null}
+                </li>
+                <li>
                    {!auth.isLogedin ? <button onClick={onShow}> Authenticate </button> :<button onClick={auth.Logout}> Logout </button> }
                 </li>
             </div>
