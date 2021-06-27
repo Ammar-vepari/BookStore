@@ -7,10 +7,12 @@ import AddBook from '../AddNewBookModal/Modal';
 
 import './AllBooks.css';
 
+
 const AllBooks = ({Books_obj}) => {
     const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
     const [isAddModalVisible, setAddModalVisible] = useState(false);
 
+    
     const booksArray = Books_obj.map((obj)=>{
         return(
             <BookCard

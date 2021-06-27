@@ -1,13 +1,37 @@
 import React from 'react';
 import './BookCard.css'
 
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import { IsSellerContext } from '../../App';
+import { useContext } from 'react';
+
 const BookCard = ( {bookImage,bookname,author,genres,desc,rating,price}) => {
+
+    const IsSeller=useContext(IsSellerContext);
+
+    const isSellerFn=()=>{
+        if(IsSeller){
+            return( <div style={{"float":"right"}}>
+                <EditIcon style={{"cursor":"pointer"}}/>
+                <DeleteIcon style={{"cursor":"pointer"}}/>
+            </div>)
+        }
+    }
+        console.log("is seller:",IsSeller)
+
+
     return (
         <div className='card'>
             <div className='bookCard'>
                 <img className='bookCard__thumbnail' src={bookImage} alt=''/>
                 <div className='bookCard__text'>
+                    
+                    {isSellerFn()}
+                    
                     <h3>{bookname}</h3>
+                    
                     <h4>By {author}</h4>
                     
                     <p style={{display:"flex" ,alignItems:'center'}} >

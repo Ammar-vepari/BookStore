@@ -1,11 +1,12 @@
 import {BrowserRouter,Route,Switch} from 'react-router-dom'
 
+
 import HomePage from './components/mainPage/mainPage'
 import Header from './components/Header/header'
 import {AuthContext} from './components/context/Auth-Context'
 
 import './App.css'
-import { useState } from 'react'
+import { useState,createContext } from 'react'
 import AllBooks from './components/AllBooks/AllBooks'
 import Search from './components/Search/Search'
 import PurchaseHistory from './components/PurchaseHistory/PurchaseHistory'
@@ -26,11 +27,14 @@ const MyBooks=()=>{
   )
 }
 
+export const IsSellerContext=createContext();
+
 function App() {
 
   
   const [Input, setInput] = useState("");
   const [Books_obj, setBooks_obj] = useState(books);
+  const [IsSeller,setIsSeller] = useState(true);
 
 
   const onInputChange=(e)=>{
@@ -45,7 +49,7 @@ function App() {
           const bookName_bool=(obj.bookname.toLowerCase().includes(temp_input.toLowerCase()));
           const authorName_bool=(obj.author.toLowerCase().includes(temp_input.toLowerCase()));
           
-          console.log(obj.bookname.toLowerCase(),"hello",temp_input.toLowerCase(),  ((obj.bookname.toLowerCase().includes(temp_input.toLowerCase()))));
+          // console.log(obj.bookname.toLowerCase(),"hello",temp_input.toLowerCase(),  ((obj.bookname.toLowerCase().includes(temp_input.toLowerCase()))));
           return (bookName_bool || authorName_bool);
         }
       )
@@ -67,11 +71,19 @@ function App() {
     setLogin(false)
   }
 
+  const isSellerFn=()=>{
+
+    if(IsSeller){
+      return <button className='AddBook_button'>Add Book</button>
+    }
+  }
+
 
   let route
 
   if(isLogedin){
     route=(
+
       <Switch>
         <Route path="/" component={HomePage} exact={true}/>
         <Route 
@@ -103,17 +115,26 @@ function App() {
 
 
   return (
-    <AuthContext.Provider
-      value={{isLogedin:isLogedin , Login:Login , Logout:Logout}}
-    >
-    <BrowserRouter>
-    <div className="wrap-header">
-      <Header/>
-    </div>
-      <Search onInputChange={onInputChange}/>
-      {route}
-    </BrowserRouter>
-    </AuthContext.Provider>
+    <IsSellerContext.Provider value={IsSeller}>
+      <AuthContext.Provider
+        value={{isLogedin:isLogedin , Login:Login , Logout:Logout}}
+      >
+        <BrowserRouter>
+          <div className="wrap-header">
+            <Header/>
+          </div>
+          <div className='app__search_add'>
+            <Search onInputChange={onInputChange}/>
+            {
+                isSellerFn()
+            }
+          </div>
+          
+          
+          {route}
+        </BrowserRouter>
+      </AuthContext.Provider>
+    </IsSellerContext.Provider>
    
   );
 }
